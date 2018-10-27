@@ -9,14 +9,25 @@ class pokemon_database:
 
     def load_pokemon(self):
         r = requests.get(self.URL)
-        
-        return r.text.splitlines()
+        pok = r.text.splitlines()
+        pok = [i.split(',')[1:-2] for i in pok[2:]]
+
+        pok[35][1] = "Nidoran (male)"
+        pok[38][1] = "Nidoran (female)" #male and female symbols not recognized, so had to be manually input"
+
+        p = {}
+        for j, i in enumerate(pok):
+            for k, l in enumerate(i):
+                if l == '-----':
+                    pok[j][k] = None
+            p[int(i[0][1:])] = i
+            p[i[1]] = i
+
+        return p
         
 
 if __name__ == '__main__':
     
     p = pokemon_database()
-
-    pokemon = p.load_pokemon()
-    print(pokemon)
-    
+    pok = p.load_pokemon()
+    print(pok)
