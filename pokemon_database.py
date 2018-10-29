@@ -5,7 +5,7 @@ import types
 
 class pokemon_database:
     def __init__(self):
-        self.URL = 'https://raw.githubusercontent.com/bonadawg/pokedex/master/pokedex.csv'
+        self.URL = 'https://raw.githubusercontent.com/bonadawg/pokedex/master/pokedex-v2.csv'
 
     def load_pokemon(self):
         r = requests.get(self.URL)
@@ -28,9 +28,15 @@ class pokemon_database:
 
         return [n,p]
 
-    def get_highest(self, stat, pok):
+    def get_highest(self, stat="", pok=None):
+        if not pok:
+            pok = self.load_pokemon()
+            pok = pok[0]
+
         stat = stat.lower()
-        if stat == 'hp':
+        if stat == "": #returns sum of base stats
+            return self.calculate_highest(17, pok)
+        elif stat == 'hp':
             return self.calculate_highest(11, pok)
         elif stat == 'attack' or stat == 'atk':
             return self.calculate_highest(12, pok)
@@ -54,8 +60,17 @@ class pokemon_database:
 
         return high
 
-    def get_stat(self, stat, mon, pok):
-        if stat == 'hp':
+    def get_stat(self, mon=212, stat="", pok=None):
+        if not pok:
+            pok = self.load_pokemon()
+            if type(mon) is int:
+                pok = pok[0]
+            else:
+                pok = pok[1]
+
+        if stat == "": #returns sum of base stats
+            return self.return_stat(17, mon, pok)
+        elif stat == 'hp':
             return self.return_stat(11, mon, pok)
         elif stat == 'attack' or stat == 'atk':
             return self.return_stat(12, mon, pok)
@@ -79,9 +94,41 @@ class pokemon_database:
 
         return stats
 
-    def get_pokemon(self, mon, pok):
+    def get_pokemon(self, mon=212, pok=None):
+        if not pok:
+            pok = self.load_pokemon()
+            if type(mon) is int:
+                pok = pok[0]
+            else:
+                pok = pok[1]
         return pok[mon]
 
+    def find_breedable(self, mon=212, pok=None):
+        if not pok:
+            pok = self.load_pokemon()
+            if type(mon) != int:
+                mon = int(pok[1][mon][0][0][1:])
+            pok = pok[0]
+
+        breeds = [pok[mon][0][9], pok[mon][0][10]]
+        mates = []
+        both = True
+        if not breeds[0]:
+            return None
+        if not breeds[1]:
+            both = False
+            breeds = breeds[0]
+
+        if both:
+            for i in range(1, 722):
+                if pok[i][0][9] == breeds[0] or pok[i][0][9] == breeds[1] or pok[i][0][10] == breeds[0] or pok[i][0][10] == breeds[1]:
+                    mates.append(pok[i][0][0] + " " + pok[i][0][1])
+        else:
+            for i in range(1, 722):
+                if pok[i][0][9] == breeds or pok[i][0][10] == breeds:
+                    mates.append(pok[i][0][0] + " " + pok[i][0][1])
+
+        return mates
         
 
 if __name__ == '__main__':
@@ -89,9 +136,16 @@ if __name__ == '__main__':
     p = pokemon_database()
     pok = p.load_pokemon()
     #print(pok)
-    for h in p.get_highest('def', pok[0]):
+    print(p.get_highest('sp def'))
+    for h in p.get_highest('def'):
         print(h)
 
-    print(p.get_stat('atk', 386, pok[0]))
+    print(p.get_stat())
 
-    print(p.get_pokemon('deoxys', pok[1]))
+    print(p.get_stat(386, 'atk', pok[0]))
+
+    print(p.get_pokemon('tapu bulu', pok[1]))
+
+    print(p.find_breedable())
+    print("")
+    print(p.find_breedable('salandit'))
