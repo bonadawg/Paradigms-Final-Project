@@ -1,3 +1,6 @@
+#James Bonadonna, Sean Michalec, Chris Heneghan
+#Paradigms Final Project Backend
+
 import sys
 import os
 import requests
@@ -48,6 +51,8 @@ class pokemon_database:
             return self.calculate_highest(15, pok)
         elif stat == 'speed' or stat == 'spd':
             return self.calculate_highest(16, pok)
+        else:
+            return None
 
     def calculate_highest(self, stat, pok):
         high = [[0] * 18]
@@ -58,6 +63,7 @@ class pokemon_database:
                 elif c[stat] == high[0][stat]:
                     high.append(c)
 
+        high.append(stat)
         return high
 
     def get_stat(self, mon=212, stat="", pok=None):
@@ -82,11 +88,13 @@ class pokemon_database:
             return self.return_stat(15, mon, pok)
         elif stat == 'speed' or stat == 'spd':
             return self.return_stat(16, mon, pok)
+        else:
+            return None
 
     def return_stat(self, stat, mon, pok):
         stats = []
         for c in pok[mon]:
-            if c[2]:
+            if c[2] != 'Normal':
                 temp = c[2] + ' ' + c[1]
                 stats.append([c[0], temp, c[stat]])
             else:
@@ -135,17 +143,152 @@ if __name__ == '__main__':
     
     p = pokemon_database()
     pok = p.load_pokemon()
+
+
+    r = requests.get(p.URL)
+    vals = r.text.splitlines()
+    vals = vals[0].split(',')[1:-2]
+
     #print(pok)
-    print(p.get_highest('sp def'))
-    for h in p.get_highest('def'):
-        print(h)
+    command = 'empty'
+    stat = ''
+    mon = ''
+    print("Welcome to the pokedex!")
+    while command and command != 'exit':
+        command = input("Please enter a function, choices are: 'breed', 'highest', 'pokemon', and 'stat'. Enter 'exit' to quit: ")
+        command = command.lower()
+        if command == 'exit':
+            print("Thank you for using DEX, have a good day!")
+            break
+        elif command == 'breed':
+            isInt = True
+            mon = input("What pokemon would you like to breed: ")
+            try:
+                mon = int(mon)
+            except:
+                isInt = False
 
-    print(p.get_stat())
+            if isInt:
+                if mon not in pok[0].keys():
+                    print("Sorry, I couldn't find that pokemon")
+                    continue
+                num = mon
+                mon = pok[0][num][0][1]
+            else:
+                if mon not in pok[1].keys():
+                    print("Sorry, I couldn't find that pokemon")
+                    continue
+                mon = mon.lower()
+                num = int(pok[1][mon][0][0][1:])
+                mon = pok[0][num][0][1]
 
-    print(p.get_stat(386, 'atk', pok[0]))
+            mates = p.find_breedable(num, pok[0])
+            sys.stdout.write("{} can breed with: ".format(mon))
+            print(', '.join(mates))
+        elif command == 'highest':
+            stat = input("What stat would you like to find the highest holder of? (Enter 'all' or 'total' for total base stats): ")
+            if stat == 'all' or stat == 'total':
+                guys = p.get_highest("", pok[0])
+            else:
+                guys = p.get_highest(stat, pok[0])
 
-    print(p.get_pokemon('tapu bulu', pok[1]))
+            if guys == None:
+                print("Sorry, that is not a valid stat category")
+            else:
+                if type(guys[1]) is list:
+                    for guy in guys[:-1]:
+                        if guy[2] == 'Normal':
+                            s = guy[0] + ' ' + guy[1] + ': ' + str(guy[guys[-1]])
+                        else:
+                            s = guy[0] + ' ' + guy[2] + ' ' + guy[1] + ': ' + str(guy[guys[-1]])
+                        print(s)
+                else:        
+                    for guy in guys[:-1]:
+                        if guy[2] == 'Normal':
+                            s = guy[0] + ' ' + guy[1] + ': ' + str(guy[guys[-1]])
+                        else:
+                            s = guy[0] + ' ' + guy[2] + ' ' + guy[1] + ': ' + str(guy[guys[-1]])
+                    print(s)
+        elif command == 'pokemon':
+            isInt = True
+            mon = input("What pokemon would you like to know about: ")
+            try:
+                mon = int(mon)
+            except:
+                isInt = False
 
-    print(p.find_breedable())
-    print("")
-    print(p.find_breedable('salandit'))
+            if isInt:
+                if mon not in pok[0].keys():
+                    print("Sorry, I couldn't find that pokemon")
+                    continue
+                num = mon
+                mon = pok[0][num][0][1]
+            else:
+                if mon not in pok[1].keys():
+                    print("Sorry, I couldn't find that pokemon")
+                    continue
+                mon = mon.lower()
+                num = int(pok[1][mon][0][0][1:])
+                mon = pok[0][num][0][1]
+
+            guy = p.get_pokemon(num, pok[0])[0]
+
+            for i in range(len(guy)):
+                print("{}: {}".format(vals[i], guy[i]))
+
+        elif command == 'stat':
+            mon = input("Enter the name or number of the pokemon: ")
+
+            isInt = True
+            try:
+                mon = int(mon)
+            except:
+                isInt = False
+
+            if isInt:
+                if mon not in pok[0].keys():
+                    print("Sorry, I couldn't find that pokemon")
+                    continue
+                num = mon
+                mon = pok[0][num][0][1]
+            else:
+                if mon not in pok[1].keys():
+                    print("Sorry, I couldn't find that pokemon")
+                    continue
+                mon = mon.lower()
+                num = int(pok[1][mon][0][0][1:])
+                mon = pok[0][num][0][1]
+
+            stat = input("Please enter the stat you would like to know for {}. (Enter 'all' or 'total' for total base stats: ".format(mon))
+            
+            if stat == 'all' or stat == 'total':
+                guy = p.get_stat(num, "", pok[0])
+            else:
+                guy = p.get_stat(num, stat, pok[0])
+
+            if not guy:
+                print("Sorry, that is not a valid stat category")
+            else:
+                guy = guy[0]
+            print("{} {}: {}".format(guy[0], guy[1], guy[2]))
+            
+        else:
+            print("Sorry, command not recognized")
+            continue
+        print("")
+        '''
+        print(p.get_highest('sp def'))
+        for h in p.get_highest('def'):
+            print(h)
+
+        print(p.get_stat())
+
+        print(p.get_stat(386, 'atk', pok[0]))
+
+        print(p.get_pokemon('tapu bulu', pok[1]))
+
+        print(p.find_breedable())
+        print("")
+        print(p.find_breedable('salandit'))
+        '''
+
