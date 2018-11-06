@@ -9,34 +9,27 @@ import types
 class pokemon_database:
     def __init__(self):
         self.URL = 'https://raw.githubusercontent.com/bonadawg/pokedex/master/pokedex-v2.csv'
-        self.byNum = {}
-        self.byName = {}
 
+    def load_pokemon(self):
         r = requests.get(self.URL)
         pok = r.text.splitlines()
-        vals = pok[0].split(',')[1:-2]
         pok = [i.split(',')[1:-2] for i in pok[2:]]
     
         p = {}
         n = {}
-
         for j, i in enumerate(pok):
-            temp = {}
             for k, l in enumerate(i):
                 if l == '-----':
                     pok[j][k] = None #file has '-----' when it is none, so made it a none object
             i[11:] = [int(x) for x in i[11:]] #makes all base stats integers
-            for pos, stat in enumerate(i):
-                temp[vals[pos]] = stat
             if i[1].lower() in p:
-                #n[int(i[0][1:])] = temp #removes the # sign in order to make it an int
-                p[i[1].lower()] = temp #add both name and number as access types to the dict
+                n[int(i[0][1:])].append(i) #removes the # sign in order to make it an int
+                p[i[1].lower()].append(i) #add both name and number as access types to the dict
             else:
-                n[int(i[0][1:])] = temp #removes the # sign in order to make it an int
-                p[i[1].lower()] = temp #add both name and number as access types to the dict
-            
-        self.byNum = n
-        self.byName = p
+                n[int(i[0][1:])] = [i] #removes the # sign in order to make it an int
+                p[i[1].lower()] = [i] #add both name and number as access types to the dict
+
+        return [n,p]
 
     def get_highest(self, stat="", pok=None):
         if not pok:
@@ -149,9 +142,12 @@ class pokemon_database:
 if __name__ == '__main__':
     
     p = pokemon_database()
-    pok = p.byNum
+    pok = p.load_pokemon()
 
-    print(pok[300])
+
+    r = requests.get(p.URL)
+    vals = r.text.splitlines()
+    vals = vals[0].split(',')[1:-2]
 
     #print(pok)
     command = 'empty'
@@ -159,7 +155,7 @@ if __name__ == '__main__':
     mon = ''
     print("Welcome to the pokedex!")
     while command and command != 'exit':
-        command = input("Please enter a function, choices are: 'breed', 'highest', 'pokemon', 'stat', and 'post'. Enter 'exit' to quit: ")
+        command = input("Please enter a function, choices are: 'breed', 'highest', 'pokemon', and 'stat'. Enter 'exit' to quit: ")
         command = command.lower()
         if command == 'exit':
             print("Thank you for using DEX, have a good day!")
@@ -235,12 +231,10 @@ if __name__ == '__main__':
                 num = int(pok[1][mon][0][0][1:])
                 mon = pok[0][num][0][1]
 
-            forms = p.get_pokemon(num, pok[0])
+            guy = p.get_pokemon(num, pok[0])[0]
 
-            for form in forms:
-                print("")
-                for i in range(len(form)):
-                    print("{}: {}".format(vals[i], form[i]))
+            for i in range(len(guy)):
+                print("{}: {}".format(vals[i], guy[i]))
 
         elif command == 'stat':
             mon = input("Enter the name or number of the pokemon: ")
@@ -277,9 +271,24 @@ if __name__ == '__main__':
             else:
                 guy = guy[0]
             print("{} {}: {}".format(guy[0], guy[1], guy[2]))
-        elif command == 'post':
-            pass
+            
         else:
             print("Sorry, command not recognized")
             continue
         print("")
+        '''
+        print(p.get_highest('sp def'))
+        for h in p.get_highest('def'):
+            print(h)
+
+        print(p.get_stat())
+
+        print(p.get_stat(386, 'atk', pok[0]))
+
+        print(p.get_pokemon('tapu bulu', pok[1]))
+
+        print(p.find_breedable())
+        print("")
+        print(p.find_breedable('salandit'))
+        '''
+
