@@ -60,7 +60,7 @@ class pokemon_database:
 
     def calculate_highest(self, stat):
         high = [{stat: 0}]
-        for i in range(1, len(self.byNum):
+        for i in range(1, len(self.byNum)):
                 if pok.byNum[i][stat] > high[stat]:
                     high = [c]
                 elif pok.byNum[i][stat] == high[stat]:
@@ -162,11 +162,46 @@ class pokemon_database:
         return temp
 
     def delete_pokemon(self, mon):
-        if mon.lower() in self.byName.keys() and self.byName[mon.lower()]['Forme'] == 'Custom':
-            loc = self.byName[mon.lower()]['Dex #']
-            del self.byName[mon.lower()]
+        mon = mon.lower()
+        if mon in self.byName.keys() and self.byName[mon]['Forme'] == 'Custom':
+            loc = self.byName[mon]['Dex #']
+            del self.byName[mon]
             del self.byNum[loc]
             return 'success'
+        else:
+            return 'failure'
+
+    def recommend_pokemon(self, mon):
+        mon = mon.lower()
+        if mon in self.byName.keys():
+            t = self.byName[mon]['Type 1']
+            loc = int(self.byName[mon]['Dex #'][1:])
+            total = 808
+            want = 'Dragon'
+            # Determine optimal type matchup
+            if t == 'Grass' or t == 'Steel' or t == 'Bug':
+                want = 'Fire'
+            elif t == 'Fire' or t == 'Ground' or t == 'Rock':
+                want = 'Water'
+            elif t == 'Water' or t == 'Flying':
+                want = 'Electric'
+            elif t == 'Poison' or t == 'Fighting':
+                want = 'Psychic'
+            elif t == 'Psychic' or t == 'Ghost':
+                want = 'Dark'
+            elif t == 'Dark' or t =='Normal':
+                want = 'Fighting'
+            elif t == 'Electric':
+                want = 'Ground'
+            elif t == 'Fairy' or t == 'Ice':
+                want = 'Steel'
+            elif t == 'Dragon':
+                want = 'Fairy'
+            for i in range(1, total):
+                if  (loc + i) % total == 0:
+                    continue
+                if self.byNum[(loc + i) % total]['Type 1'] == want:
+                    return self.byNum[(loc + i) % total]['Pokemon']
         else:
             return 'failure'
 
