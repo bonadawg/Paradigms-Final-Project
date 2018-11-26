@@ -1,0 +1,9 @@
+In client, change pumpkaboo and gourgeist forme to always be normal
+
+For zygarde, urls are /zygarde/, /zygarde-10/, and /zygarde-complete/
+
+For own tempo rockruff, only show regular (if mon == 'rockruff' url = '/rockruff')
+
+For wishiwashi schooling, url is /wishiwashi-school/
+
+For necrozma dusk and dawn, urls are /necrozma-dusk-mane/ and /necrozma-dawn-wings/
