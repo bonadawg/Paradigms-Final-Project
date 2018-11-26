@@ -30,7 +30,7 @@ function Image() {
     this.createImage = function(mon, form, id, title){
         mon = mon.toLowerCase();
         form = form.toLowerCase();
-        if(form == 'own tempo' or form == '50% forme'){
+        if(form == 'own tempo' || form == '50% forme'){
             form = 'normal';
         }
         else if(form == 'schooling'){
@@ -55,7 +55,27 @@ function Image() {
         this.myItem.setAttribute("width", 360);
         this.myItem.setAttribute("height", 360);
     }
-    this.setImage = function(src){
-        this.myItem.setAttribute("src", "https://img.pokemondb.net/artwork/" + src + ".jpg");
+    this.setImage = function(mon, form){
+        mon = mon.toLowerCase();
+        form = form.toLowerCase();
+        if(form == 'own tempo' || form == '50% forme'){
+            form = 'normal';
+        }
+        else if(form == 'schooling'){
+            form = 'school';
+        }
+        else if(form == '10% forme'){
+            form = '10';
+        }
+        else if(form == 'complete forme'){
+            form = 'complete';
+        }
+
+        if(form != 'normal' && mon != 'pumpkaboo' && mon != "gourgeist"){
+            form = form.replace(/\s+/g, '-').toLowerCase();
+            mon = mon + '-' + form
+        }
+
+        this.myItem.setAttribute("src", "https://img.pokemondb.net/artwork/" + mon + ".jpg");
     }
 }
