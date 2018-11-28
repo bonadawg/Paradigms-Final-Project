@@ -20,21 +20,17 @@ class TestCherrypyPrimer(unittest.TestCase):
                 except ValueError:
                         return False
 
-        def test_dict_get(self):
-                self.reset_data()
-                key = 'paradigms'
+        def test_pokemon_get(self): #tests a get request for a pokemon
+                key = 'scizor'
                 r = requests.get(self.DICT_URL + key)
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
-                self.assertEqual(resp['result'], 'error')
+                self.assertEqual(resp['pokemon']['Pokemon'], 'Scizor')
 
-        def test_dict_put(self):
-                self.reset_data()
-                key = 'paradigms'
+        def test_dict_put(self): #tests a post request for a new pokemon
+                key = 'bonadawg'
 
-                m = {}
-                m['value'] = '2018'
-                r = requests.put(self.DICT_URL + key, data = json.dumps(m))
+                r = requests.post(self.DICT_URL + key, data = json.dumps({}))
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
@@ -42,15 +38,12 @@ class TestCherrypyPrimer(unittest.TestCase):
                 r = requests.get(self.DICT_URL + key)
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
-                self.assertEqual(resp['value'], m['value'])
+                self.assertEqual(resp['pokemon']['Pokemon'], key)
 
-        def test_dict_delete(self):
-                self.reset_data()
-                key = 'paradigms'
+        def test_dict_delete(self): #tests a post and delete request for pokemon
+                key = 'sean'
 
-                m = {}
-                m['value'] = '2018'
-                r = requests.put(self.DICT_URL + key, data = json.dumps(m))
+                r = requests.post(self.DICT_URL + key, data = json.dumps({}))
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
@@ -60,53 +53,47 @@ class TestCherrypyPrimer(unittest.TestCase):
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
 
-                r = requests.get(self.DICT_URL + key)
-                self.assertTrue(self.is_json(r.content.decode()))
-                resp = json.loads(r.content.decode())
-                self.assertEqual(resp['result'], 'error')
+        def test_breed_get(self): #tests getting breedable pokemon
 
-        def test_dict_index_get(self):
-                self.reset_data()
+                key = 'scizor'
 
-                key = 'paradigms'
-                m = {}
-                m['value'] = '2018'
-                r = requests.put(self.DICT_URL + key, data = json.dumps(m))
+                r = requests.get(self.BREED_URL + key)
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
 
-                r = requests.get(self.DICT_URL)
+        def test_rec_get(self): #tests getting a recommendation
+
+                key = 'scizor'
+
+                r = requests.get(self.REC_URL + key)
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
 
-                entries = resp['entries']
-                mkv = entries[0]
-                self.assertEqual(mkv['key'], key)
-                self.assertEqual(mkv['value'], m['value'])
+        def test_stat_get(self): #tests getting a pokemon's stats
 
-        def test_dict_index_post(self):
-                self.reset_data()
+                key = 'scizor'
 
-                m = {}
-                m['key'] = 'paradigms'
-                m['value'] = '2018'
-
-                r = requests.post(self.DICT_URL, data = json.dumps(m))
+                r = requests.get(self.DICT_URL + key + '/defense')
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
 
-                r = requests.get(self.DICT_URL)
+                r = requests.get(self.DICT_URL + key + '/attack')
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
 
-                entries = resp['entries']
-                mkv = entries[0]
-                self.assertEqual(mkv['key'], m['key'])
-                self.assertEqual(mkv['value'], m['value'])
+                r = requests.get(self.DICT_URL + key + '/hp')
+                self.assertTrue(self.is_json(r.content.decode()))
+                resp = json.loads(r.content.decode())
+                self.assertEqual(resp['result'], 'success')
+
+                r = requests.get(self.DICT_URL + key + '/speed')
+                self.assertTrue(self.is_json(r.content.decode()))
+                resp = json.loads(r.content.decode())
+                self.assertEqual(resp['result'], 'success')
 
 if __name__ == "__main__":
         unittest.main()
