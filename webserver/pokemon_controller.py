@@ -38,7 +38,7 @@ class PokemonController(object):
             ls.append(pokemon[key])
     
         output['pokemon'] = ls
-        return json.dumps(output)
+        return json.dumps(output) #returns the list of all pokemon in the database in json format
 
     def GET_BREEDABLE(self, name):
         output = {'result' : 'success'}
@@ -48,7 +48,7 @@ class PokemonController(object):
             output['message'] = 'Pokemon does not exist!'
         else:
             output['breed_list'] = breed_list
-        return json.dumps(output)
+        return json.dumps(output) #returns a list of all breedable pokemon in json format
 
     def GET_REC(self, name):
         output = {'result' : 'success'}
@@ -58,14 +58,14 @@ class PokemonController(object):
             output['message'] = 'Pokemon does not exist!'
         else:
             output['recommendation'] = pok
-        return json.dumps(output)
+        return json.dumps(output) #returns a recommended pokemon in json
 
     def GET_STATS(self, name, _stat):
         output = {'result' : 'success'}
         st = self.db.get_stat(name, stat=_stat)
         output['stat'] = st
 
-        return json.dumps(output)        
+        return json.dumps(output) #returns a specific stat for the pokemon in a list in a json
 
     def DELETE(self, name):
         output = {'result' : 'success'}
@@ -77,10 +77,10 @@ class PokemonController(object):
         else:
             ouput['result'] = 'error'
             output['message'] = 'Pokemon does not exist!'
-        return json.dumps(output)
+        return json.dumps(output) #ensures the pokemon exists, then deletes it
 
     def POST(self, name):
         output = {'result' : 'success'}
         t = self.db.add_pokemon(name)
 
-        return json.dumps(output)
+        return json.dumps(output) #posts a custom pokemon

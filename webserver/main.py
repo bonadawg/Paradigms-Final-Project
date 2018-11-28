@@ -10,6 +10,7 @@ def start_service():
 
     pdb = pokemon_database()
     dictController = PokemonController(pdb)
+    # dispatcher shadows what was done in the cherrypy project
     dispatcher.connect('poke_get', '/pokemon/:name', controller=dictController, action='GET_POKEMON', conditions=dict(method=['GET']))
     dispatcher.connect('poke_get_all', '/pokemon/', controller=dictController, action='GET_ALL', conditions=dict(method=['GET']))
     dispatcher.connect('poke_get_all', '/breedable/:name', controller=dictController, action='GET_BREEDABLE', conditions=dict(method=['GET']))
