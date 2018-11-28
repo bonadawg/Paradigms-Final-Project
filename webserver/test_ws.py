@@ -20,6 +20,12 @@ class TestCherrypyPrimer(unittest.TestCase):
                 except ValueError:
                         return False
 
+        def test_get_all(self): #tests a get request for a pokemon
+                r = requests.get(self.DICT_URL)
+                self.assertTrue(self.is_json(r.content.decode()))
+                resp = json.loads(r.content.decode())
+                self.assertEqual(resp['result'], 'success')
+
         def test_pokemon_get(self): #tests a get request for a pokemon
                 key = 'scizor'
                 r = requests.get(self.DICT_URL + key)
@@ -30,7 +36,7 @@ class TestCherrypyPrimer(unittest.TestCase):
         def test_dict_put(self): #tests a post request for a new pokemon
                 key = 'bonadawg'
 
-                r = requests.post(self.DICT_URL + key, data = json.dumps({}))
+                r = requests.post(self.DICT_URL + key, data = json.dumps({'pokemon': key}))
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
