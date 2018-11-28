@@ -78,9 +78,9 @@ class pokemon_database:
             return self.return_stat('Base Atk', mon)
         elif stat == 'defense' or stat == 'def':
             return self.return_stat('Base Def', mon)
-        elif stat == 'special attack' or stat == 'sp. attack' or stat == 'sp attack' or stat == 'sp atk' or stat == 'sp. atk':
+        elif stat == 'special_attack' or stat == 'specialattack' or stat == 'sp_attack' or stat == 'sp_atk' or stat == 'spatk':
             return self.return_stat('Base Sp Atk', mon)
-        elif stat == 'special defense' or stat == 'sp. defense' or stat == 'sp defense' or stat == 'sp def' or stat == 'sp. def':
+        elif stat == 'special_defense' or stat == 'specialdefense' or stat == 'sp_defense' or stat == 'sp_def' or stat == 'spdef':
             return self.return_stat('Base Sp Def', mon)
         elif stat == 'speed' or stat == 'spd':
             return self.return_stat('Base Spd', mon)
@@ -103,11 +103,17 @@ class pokemon_database:
 
         return stats
 
+    def get_length(self):
+        return len(self.byName)
+
     def get_pokemon(self, mon=212):
         if type(mon) is int:
             return self.byNum[mon]
         else:
             return self.byName[mon]
+
+    def get_all(self):
+        return self.byNum
 
     def find_breedable(self, mon=212):
         try:
@@ -167,11 +173,11 @@ class pokemon_database:
             loc = self.byName[mon]['Dex #']
             del self.byName[mon]
             del self.byNum[loc]
-            return 'success'
+            return True
         else:
-            return 'failure'
+            return False
 
-    def recommend_pokemon(self, mon):
+    def get_recommendation(self, mon):
         mon = mon.lower()
         if mon in self.byName.keys():
             t = self.byName[mon]['Type 1']
@@ -203,5 +209,5 @@ class pokemon_database:
                 if self.byNum[(loc + i) % total]['Type 1'] == want:
                     return self.byNum[(loc + i) % total]['Pokemon']
         else:
-            return 'failure'
+            return False
 
