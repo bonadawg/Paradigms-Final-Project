@@ -13,3 +13,4 @@ JSON RESTful:
 |DELETE  | /pokemon/:id       |                  | {'result': 'success'}                                       |
 |GET     | /breedable/:id     |                  | {'result': 'success', 'breed_list': ['#001 Bulbasaur'...]}  |
 |GET     | /pokemon/:id/:stat |                  | {'result': 'success', 'stat': [['#212', 'Scizor', 100']]}   |
+|GET     | /recommend/:id     |                  | {'result': 'success', 'recommendation': 'Psyduck'}          |
