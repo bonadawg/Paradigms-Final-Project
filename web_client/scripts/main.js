@@ -18,6 +18,7 @@ menu.addToDocument();
 
 view = new Button();
 view.createButton("Go!", "menuBut");
+<<<<<<< HEAD
 view.addClickEventHandler(processSelection, menu.getSelected(args));
 view.addToDocument();
 
@@ -252,60 +253,3 @@ function delete_custom(args){
 
     xhrM.send(null) // last step - this actually makes the request
 }
-
-/*
-function load_movie(){
-    console.log(inp.getValue());
-    imag.setImage("scizor", "Normal");
-    var xhrM = new XMLHttpRequest() // 1 - creating request object
-
-    xhrM.open("GET", "http://student04.cse.nd.edu:52047/pokemon/" + 'scizor', true) // 2 - associates request attributes with xhr
-
-    xhrM.onload = function(e) { // triggered when response is received
-        // must be written before send
-        console.log(xhrM.responseText);
-        mData = JSON.parse(xhrM.responseText);
-        myImg = mData.img;
-        imag.setImage("scizor", "Normal");
-    }
-
-    xhrM.onerror = function(e) { // triggered when error response is received and must be before send
-        console.error(xhrM.statusText);
-    }
-
-    xhrM.send(null) // last step - this actually makes the request
-
-    var xhrR = new XMLHttpRequest() // 1 - creating request object
-
-    xhrR.open("GET", "http://student04.cse.nd.edu:51047/ratings/" + curr.toString(), true) // 2 - associates request attributes with xhr
-
-    xhrR.onload = function(e) { // triggered when response is received
-        // must be written before send
-        console.log(xhrR.responseText);
-        rData = JSON.parse(xhrR.responseText);
-        console.log(rData)
-        rating.setText("scizor");
-    }
-
-    xhrR.onerror = function(e) { // triggered when error response is received and must be before send
-        console.error(xhrR.statusText);
-    }
-
-    xhrR.send(null) // last step - this actually makes the request
-}
-
-
-function processSelection(args){
-    vote = dict[menu.getSelected(args)];
-    console.log(vote);
-    
-    var xhrV = new XMLHttpRequest() // 1 - creating request object
-
-    xhrV.open("POST", "http://student04.cse.nd.edu:52047" + vote + inp.getValue(), true) // 2 - associates request attributes with xhr
-
-    var toSend = {"pokemon": vote};
-
-    xhrV.send(JSON.stringify(toSend));
-    load_movie();
-}*/
-

@@ -67,6 +67,31 @@ function Input() {
     }
 }
 
+function Dropdown() {
+    this.createDropdown = function(dict, id, selected){
+        this.myItem = document.createElement("select");
+        this.myItem.setAttribute("id", id);
+        for(var key in dict){
+            this.myItem.add(new Option(key));
+        }
+    },
+    this.getSelected = function(args){
+        selected = this.myItem.options[this.myItem.selectedIndex].text;
+        return selected;
+    }
+}
+
+function Input() {
+    this.createInput = function(text, id){
+        this.myItem = document.createElement("INPUT");
+        this.myItem.setAttribute("id", id);
+        this.myItem.value = text;
+    }
+    this.getValue = function(){
+        return this.myItem.value;
+    }
+}
+
 function Image() {
     this.createImage = function(mon, form, id, title){
         if(mon != ""){
