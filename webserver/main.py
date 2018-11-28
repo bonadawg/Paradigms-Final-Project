@@ -6,7 +6,7 @@ import json
 def start_service():
     dispatcher = cherrypy.dispatch.RoutesDispatcher()
 
-    conf = { 'global' : {'server.socket_host' : 'student04.cse.nd.edu', 'server.socket_port' : 52069 }, '/' : { 'request.dispatch' : dispatcher}}
+    conf = { 'global' : {'server.socket_host' : 'student04.cse.nd.edu', 'server.socket_port' : 52047 }, '/' : { 'request.dispatch' : dispatcher}}
 
     pdb = pokemon_database()
     dictController = PokemonController(pdb)
@@ -15,7 +15,7 @@ def start_service():
     dispatcher.connect('poke_get_all', '/breedable/:name', controller=dictController, action='GET_BREEDABLE', conditions=dict(method=['GET']))
     dispatcher.connect('poke_post', '/pokemon/:name', controller=dictController, action='POST', conditions=dict(method=['POST']))
     dispatcher.connect('poke_stat', '/pokemon/:name/:_stat', controller=dictController, action='GET_STATS', conditions=dict(method=['GET']))
-    dispatcher.connect('poke_rec', '/recommend/', controller=dictController, action='GET_REC', conditions=dict(method=['GET']))
+    dispatcher.connect('poke_rec', '/recommend/:name', controller=dictController, action='GET_REC', conditions=dict(method=['GET']))
     dispatcher.connect('poke_del', '/pokemon/:name', controller=dictController, action='DELETE', conditions=dict(method=['DELETE']))
 
     cherrypy.config.update(conf)

@@ -50,12 +50,14 @@ class PokemonController(object):
             output['breed_list'] = breed_list
         return json.dumps(output)
 
-    def GET_REC(self):
+    def GET_REC(self, name):
         output = {'result' : 'success'}
-        leng = self.db.get_length()
-        
-        pok = self.db.get_pokemon(randint(1,leng))
-        output['recommendation'] = pok
+        pok = self.db.get_recommendation(name.lower())
+        if pok is False:
+            output['result'] = 'error'
+            output['message'] = 'Pokemon does not exist!'
+        else:
+            output['recommendation'] = pok
         return json.dumps(output)
 
     def GET_STATS(self, name, _stat):
