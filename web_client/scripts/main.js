@@ -18,6 +18,10 @@ menu.addToDocument();
 
 view = new Button();
 view.createButton("Go!", "menuBut");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> e2d49ec8cfa8d510b8aee15698c69430ca617f08
 view.addClickEventHandler(processSelection, menu.getSelected(args));
 view.addToDocument();
 
@@ -84,7 +88,6 @@ desc = new Label();
 desc.createLabel("", "description");
 desc.addToDocument();
 desc.hide();
-
 function processSelection(args){
     vote = menu.getSelected(args);
     ext = dict[vote];
@@ -309,13 +312,6 @@ function create_new(args){
 function delete_custom(args){
     var xhrM = new XMLHttpRequest() // 1 - creating request object
 
-    /*xhrM.open("GET", "http://student04.cse.nd.edu:52047/pokemon/" + inp.getValue(), true) // 2 - associates request attributes with xhr
-    xhrM.onload = function(e) { // triggered when response is received
-        // must be written before send
-        console.log(xhrM.responseText);
-        imag.setImage("Delete", "Normal");
-        imag.reveal();
-    }*/
     xhrM.open("DELETE", "http://student04.cse.nd.edu:52047/pokemon/" + inp.getValue(), true) // 2 - associates request attributes with xhr
 
     xhrM.onload = function(e) { // triggered when response is received

@@ -54,7 +54,7 @@ function Input() {
         this.myItem = document.createElement("INPUT");
         this.myItem.setAttribute("id", id);
         this.myItem.value = text;
-    },
+    }
     this.getValue = function(){
         return this.myItem.value;
     }
@@ -94,6 +94,12 @@ function Image() {
     this.setImage = function(mon, form){
         mon = mon.toLowerCase();
         form = form.toLowerCase();
+        if(mon == "custom"){
+            this.myItem.setAttribute("src", "https://www.smashbros.com/wiiu-3ds/sp/images/character/mii_fighter/main.png");
+        }
+        else if(mon == "delete"){
+            this.myItem.setAttribute("src", "https://vignette.wikia.nocookie.net/joke-battles/images/d/d8/MissingNo..png/revision/latest?cb=20160129051405");
+        }
         if(form == 'own tempo' || form == '50% forme'){
             form = 'normal';
         }
@@ -121,6 +127,9 @@ function Image() {
             this.myItem.setAttribute("src", "https://vignette.wikia.nocookie.net/joke-battles/images/d/d8/MissingNo..png/revision/latest?cb=20160129051405");
         }
     },
+    this.show404 = function(){
+        this.myItem.setAttribute("src", "https://veekun.com/static/local/images/404a.png");
+    }
     this.show404 = function(){
         this.myItem.setAttribute("src", "https://veekun.com/static/local/images/404a.png");
     }
