@@ -22,11 +22,11 @@ def start_service():
     optController = OptionsController()
     # dispatcher shadows what was done in the cherrypy project
 
-    dispatcher.connect('poke_get', '/pokemon/:name', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
-    dispatcher.connect('poke_get_all', '/pokemon/', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
-    dispatcher.connect('poke_get_all', '/breedable/:name', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
-    dispatcher.connect('poke_stat', '/pokemon/:name/:_stat', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
-    dispatcher.connect('poke_rec', '/recommend/:name', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('opt_get', '/pokemon/:name', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('opt_get_a', '/pokemon/', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('opt_get_all', '/breedable/:name', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('opt_stat', '/pokemon/:name/:_stat', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('opt_rec', '/recommend/:name', controller=optController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
     
     dispatcher.connect('poke_get', '/pokemon/:name', controller=dictController, action='GET_POKEMON', conditions=dict(method=['GET']))
     dispatcher.connect('poke_get_all', '/pokemon/', controller=dictController, action='GET_ALL', conditions=dict(method=['GET']))

@@ -10,83 +10,80 @@ var dict = {"Show all pokemon": "/pokemon/", "Show one pokemon": "/pokemon/", "S
 
 l = new Label();
 l.createLabel("Please choose an option:", "mLabel");
-l.addToDocument();
+l.addToDiv();
 
 menu = new Dropdown();
 menu.createDropdown(dict, "theMenu", "Awesome!");
-menu.addToDocument();
+menu.addToDiv();
 
 view = new Button();
 view.createButton("Go!", "menuBut");
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> e2d49ec8cfa8d510b8aee15698c69430ca617f08
+
 view.addClickEventHandler(processSelection, menu.getSelected(args));
-view.addToDocument();
+view.addToDiv();
 
 spacing = new Label(); //feel free to remove all spacings, done for my own sanity
 spacing.createLabel("", "rLabel");
-spacing.addToDocument();
+spacing.addToDiv();
 
 inp = new Input();
 inp.createInput("Enter a pokemon", "theInput");
-inp.addToDocument();
+inp.addToDiv();
 inp.hide();
 
 oBut = new Button();
 oBut.createButton("Find!", "theButton");
 oBut.addClickEventHandler(show_one, inp.getValue());
-oBut.addToDocument();
+oBut.addToDiv();
 oBut.hide();
 
 bBut = new Button();
 bBut.createButton("Find!", "theButton");
 bBut.addClickEventHandler(breed, inp.getValue());
-bBut.addToDocument();
+bBut.addToDiv();
 bBut.hide();
 
 rBut = new Button();
 rBut.createButton("Find!", "theButton");
 rBut.addClickEventHandler(recommend, inp.getValue());
-rBut.addToDocument();
+rBut.addToDiv();
 rBut.hide();
 
 aBut = new Button();
 aBut.createButton("Go!", "theButton");
 aBut.addClickEventHandler(create_new, inp.getValue());
-aBut.addToDocument();
+aBut.addToDiv();
 aBut.hide();
 
 dBut = new Button();
 dBut.createButton("Go!", "theButton");
 dBut.addClickEventHandler(delete_custom, inp.getValue());
-dBut.addToDocument();
+dBut.addToDiv();
 dBut.hide();
 
 statInp = new Input();
 statInp.createInput("Enter a stat", "sInput");
-statInp.addToDocument();
+statInp.addToDiv();
 statInp.hide();
 
 sBut = new Button();
 sBut.createButton("Find!", "theButton");
 sBut.addClickEventHandler(show_stat, [inp.getValue(), statInp.getValue()]);
-sBut.addToDocument();
+sBut.addToDiv();
 sBut.hide();
 
 spacing = new Label();
 spacing.createLabel("", "rLabel");
-spacing.addToDocument();
+spacing.addToDiv();
 
 imag = new Image();
 imag.createImage("scizor", "Normal", "theImage", "{Movie Image}");
-imag.addToDocument();
+imag.addToDiv();
 imag.hide();
 
 desc = new Label();
 desc.createLabel("", "description");
-desc.addToDocument();
+desc.addToDiv();
 desc.hide();
 function processSelection(args){
     vote = menu.getSelected(args);

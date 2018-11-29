@@ -1,7 +1,8 @@
 //James Bonadonna, Daily15
 
 function Item() {
-    this.addToDocument = function(){ document.body.appendChild(this.myItem); },
+    this.addToDocument = function () { document.body.appendChild(this.myItem); },
+    this.addToDiv = function () { document.getElementById('text').appendChild(this.myItem); },
     this.hide = function(){
         this.myItem.style.display = 'none'
     },
@@ -94,12 +95,7 @@ function Image() {
     this.setImage = function(mon, form){
         mon = mon.toLowerCase();
         form = form.toLowerCase();
-        if(mon == "custom"){
-            this.myItem.setAttribute("src", "https://www.smashbros.com/wiiu-3ds/sp/images/character/mii_fighter/main.png");
-        }
-        else if(mon == "delete"){
-            this.myItem.setAttribute("src", "https://vignette.wikia.nocookie.net/joke-battles/images/d/d8/MissingNo..png/revision/latest?cb=20160129051405");
-        }
+        
         if(form == 'own tempo' || form == '50% forme'){
             form = 'normal';
         }
@@ -120,7 +116,7 @@ function Image() {
 
         this.myItem.setAttribute("src", "https://img.pokemondb.net/artwork/" + mon + ".jpg");
 
-        if(mon == 'custom'){
+        if(mon == 'custom' || form == 'custom'){
             this.myItem.setAttribute("src", "https://www.smashbros.com/wiiu-3ds/sp/images/character/mii_fighter/main.png");
         }
         else if(mon == 'delete'){
