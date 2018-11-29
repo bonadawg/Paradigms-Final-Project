@@ -75,7 +75,7 @@ class PokemonController(object):
         if res:
             return json.dumps(output)
         else:
-            ouput['result'] = 'error'
+            output['result'] = 'error'
             output['message'] = 'Pokemon does not exist!'
         return json.dumps(output) #ensures the pokemon exists, then deletes it
 
