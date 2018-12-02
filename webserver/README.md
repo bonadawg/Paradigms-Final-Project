@@ -1,3 +1,7 @@
+James Bonadonna, Sean Michalec, Chris Heneghan
+
+The API works by parsing the data from the URL and creating different ways to access it, then having those different access methods get called by the main class and give data to the user from the server.
+
 The webserver runs on port 52047.
 
 This webserver connects to the database and provides information about the pokemon on it. In order to get all information about a pokemon, go to student04.cse.nd.edu:52047/pokemon/$POKEMON_NAME. In order to get a specific stat for that pokemon, go to student04.cse.nd.edu:52047/pokemon/POKEMON_NAME/STAT. In order to find breedable pokemon, go to student04.cse.nd.edu:52047/breedable/$POKEMON_NAME. In order to get information about all pokemon, go to student04.cse.nd.edu:52047/pokemon. In order to post a custom pokemon, send a post request to student04.cse.nd.edu:52047/pokemon. In order to delete a custom pokemon, send a delete request to student04.cse.nd.edu:52047/pokemon/$POKEMON_NAME. Lastly, in order to get a recommendation to fight against a pokemon, go to student04.cse.nd.edu:52047/recommend/$POKEMON_NAME.
