@@ -1,6 +1,6 @@
-Run the server using the command: /afs/nd.edu/user14/csesoft/2017-fall/anaconda3/bin/python3 main.py
+James Bonadonna, Sean Michalec, Chris Heneghan
 
-Run the server tests using the command: /afs/nd.edu/user14/csesoft/2017-fall/anaconda3/bin/python3 test_ws.py
+The API works by parsing the data from the URL and creating different ways to access it, then having those different access methods get called by the main class and give data to the user from the server.
 
 The webserver runs on port 52047.
 
